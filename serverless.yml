@@ -39,6 +39,15 @@ provider:
 #  environment:
 #    variable1: value1
 
+custom:
+  # this section allows for customization of the default
+  # serverless-rust plugin settings
+  rust:
+    # flags passed to cargo
+    # cargoFlags: "--features enable-awesome"
+    # experimental! when set to true, artifacts are built locally outside of docker
+    dockerless: true
+
 package:
   individually: true
 
