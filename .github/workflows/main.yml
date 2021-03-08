@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup Musl
+        run: rustup target add x86_64-unknown-linux-musl
       - name: Run clippy
         run: cargo clippy --all-targets -- -D clippy::all
       - name: Run tests
@@ -23,6 +25,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Setup Musl
+        run: rustup target add x86_64-unknown-linux-musl
       - name: Run Build
         run: cargo build --verbose --all --release
 
@@ -39,6 +43,5 @@ jobs:
           AWS_DEFAULT_REGION: eu-north-1
           #STAGE: prod
         run: |
-          rustup target add x86_64-unknown-linux-musl
           npm install
           npx serverless deploy --conceal

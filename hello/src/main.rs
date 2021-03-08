@@ -1,15 +1,19 @@
 use lambda::{handler_fn, Context};
 use serde_json::Value;
-
+use simple_logger::SimpleLogger;
+use log::info;
 type Error = Box<dyn std::error::Error + Sync + Send + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
+    SimpleLogger::new().init()?;
+
     lambda::run(handler_fn(hello)).await?;
     Ok(())
 }
 
 async fn hello(event: Value, _: Context) -> Result<Value, Error> {
+    info!("Msg: {}", &event);
     Ok(event)
 }
 
