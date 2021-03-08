@@ -39,5 +39,6 @@ jobs:
           AWS_DEFAULT_REGION: eu-north-1
           #STAGE: prod
         run: |
+          rustup target add x86_64-unknown-linux-musl
           npm install
           npx serverless deploy --conceal
