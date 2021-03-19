@@ -1,5 +1,5 @@
 [package]
-name = "world"
+name = "uploader"
 version = "0.1.0"
 authors = ["Alexander Herlin <alexander.herlin@outlook.com>"]
 edition = "2018"
@@ -8,3 +8,5 @@ edition = "2018"
 tokio = { version = "0.2", features = ["macros"] }
 lambda_http = { git = "https://github.com/awslabs/aws-lambda-rust-runtime/", branch = "master"}
 serde_json = "1.0"
+simple_logger = "1.0"
+log = "0.4"

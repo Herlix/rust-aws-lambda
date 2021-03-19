@@ -1,15 +1,19 @@
 use lambda_http::{handler, lambda, Context, IntoResponse, Request};
+use log::info;
 use serde_json::json;
+use simple_logger::SimpleLogger;
 
 type Error = Box<dyn std::error::Error + Sync + Send + 'static>;
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
+    SimpleLogger::new().init()?;
     lambda::run(handler(world)).await?;
     Ok(())
 }
 
-async fn world(_: Request, _: Context) -> Result<impl IntoResponse, Error> {
+async fn world(value: Request, _: Context) -> Result<impl IntoResponse, Error> {
+    info!("{:?}", value);
     // `serde_json::Values` impl `IntoResponse` by default
     // creating an application/json response
     Ok(json!({
