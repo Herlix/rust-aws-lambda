@@ -20,7 +20,7 @@ provider:
             - s3:GetObject
             - s3:DeleteObject
             - s3:ListBucket
-          Resource: arn::s3bucket:#{AWS::Region}:#{AWS::AccountId}:bucket/${self:service}-image-bucket-${self:provider.stage}
+          Resource: arn::s3bucket:#{AWS::Region}:#{AWS::AccountId}:bucket/${self:provider.environment.IMAGE_BUCKET}
 
         - Effect: "Allow"
           Action:
@@ -31,7 +31,7 @@ provider:
             - dynamodb:PutItem
             - dynamodb:UpdateItem
             - dynamodb:DeleteItem
-          Resource: arn::dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:service}-image-table-${self:provider.stage}
+          Resource: arn::dynamodb:#{AWS::Region}:#{AWS::AccountId}:table/${self:provider.environment.IMAGE_TABLE}
 
   apiGateway:
     shouldStartNameWithService: true
@@ -66,19 +66,20 @@ functions:
     handler: resizer
     events:
       - s3:
-          bucket: ${IMAGE_BUCKET}
+          bucket: ${self:provider.environment.IMAGE_BUCKET}
           event: s3:ObjectCreated:*
+
 resources:
   Resources:
     ImageBucket:
       Type: AWS::S3::Bucket
       Properties:
-        BucketName: ${self:service}-image-bucket-${self:provider.stage}
+        BucketName: ${self:provider.environment.IMAGE_BUCKET}
 
     ImageTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${IMAGE_TABLE}
+        TableName: ${self:provider.environment.IMAGE_TABLE}
         AttributeDefinitions:
           - AttributeName: id
             AttributeType: S
