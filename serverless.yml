@@ -83,8 +83,12 @@ functions:
     handler: resizer
     events:
       - s3:
-          bucket: ${self:provider.environment.IMAGE_BUCKET}
+          bucket: ImageBucket
           event: s3:ObjectCreated:*
+
+  s3:
+    ImageBucket:
+      name: ${self:provider.environment.IMAGE_BUCKET}
 
 resources:
   Resources:
