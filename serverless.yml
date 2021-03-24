@@ -83,19 +83,16 @@ functions:
     handler: resizer
     events:
       - s3:
-          bucket: ImageBucket
+          bucket: ${self:provider.environment.IMAGE_BUCKET}
           event: s3:ObjectCreated:*
-
-  s3:
-    ImageBucket:
-      name: ${self:provider.environment.IMAGE_BUCKET}
+          existing: true
 
 resources:
   Resources:
-    # ImageBucket:
-    #   Type: AWS::S3::Bucket
-    #   Properties:
-    #     BucketName: ${self:provider.environment.IMAGE_BUCKET}
+    ImageBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: ${self:provider.environment.IMAGE_BUCKET}
 
     ImageTable:
       Type: AWS::DynamoDB::Table
