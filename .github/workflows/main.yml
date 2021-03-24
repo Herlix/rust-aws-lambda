@@ -21,14 +21,14 @@ jobs:
       - name: Run tests
         run: cargo test --verbose --all
 
-  Build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Setup Musl
-        run: rustup target add x86_64-unknown-linux-musl
-      - name: Run Build
-        run: cargo build --verbose --all --release
+  # Build:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Setup Musl
+  #       run: rustup target add x86_64-unknown-linux-musl
+  #     - name: Run Build
+  #       run: cargo build --verbose --all --release
 
   Deploy:
     runs-on: ubuntu-latest
