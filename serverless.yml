@@ -16,6 +16,15 @@ provider:
       statements:
         - Effect: "Allow"
           Action:
+            - "s3:ListBucket"
+          Resource:
+            Fn::Join:
+              - ""
+              - - "arn:aws:s3:::"
+                - Ref: ServerlessDeploymentBucket
+
+        - Effect: "Allow"
+          Action:
             - s3:PutObject
             - s3:GetObject
             - s3:DeleteObject
@@ -25,6 +34,7 @@ provider:
               - ""
               - - "arn:aws:s3:::"
                 - Ref: ImageBucket
+                - "/*"
 
         - Effect: "Allow"
           Action:
@@ -73,14 +83,15 @@ functions:
     handler: resizer
     events:
       - s3:
+          bucket: ${self:provider.environment.IMAGE_BUCKET}
           event: s3:ObjectCreated:*
 
 resources:
   Resources:
-    ImageBucket:
-      Type: AWS::S3::Bucket
-      # Properties:
-      #   BucketName: ${self:provider.environment.IMAGE_BUCKET}
+    # ImageBucket:
+    #   Type: AWS::S3::Bucket
+    #   Properties:
+    #     BucketName: ${self:provider.environment.IMAGE_BUCKET}
 
     ImageTable:
       Type: AWS::DynamoDB::Table
